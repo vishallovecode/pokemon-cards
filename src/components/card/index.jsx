@@ -16,7 +16,7 @@ function Card(props) {
       Type: {type}
       </div>
       <div>
-      <Button buttonText='Know More..' />
+      <Button buttonText='Know More..' classes={type} />
       </div>
     </div>
   )
