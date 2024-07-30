@@ -3,36 +3,47 @@ import Card from "../../components/card";
 
 import "./home.css";
 import { BASE_URL } from "./constant";
+import Button from "../../components/button";
 // Container
 function Home() {
   // Home page logic and state will be defined here
   const [pokemonList, setPokemonList] = useState([]);
-  async function fetchPokemon(page) {
+  const [nextUrl , setNextUrl] = useState('')
+  async function fetchPokemon(url) {
     try {
-      const data = await fetch(`${BASE_URL}${page}`);
+      const data = await fetch(url);
       const res = await data.json();
-      setPokemonList(res[0]?.results);
+      setPokemonList([...pokemonList ,...res[0]?.results ]);
+      setNextUrl(res[0].next)
     } catch (error) {
       console.error("Error::", error);
     }
   }
 
   useEffect(() => {
-    fetchPokemon(1);
+    const url  = `${BASE_URL}${1}`
+    fetchPokemon(url); // after mounted
   }, []);
+
+  function loadMore() {
+    if(nextUrl) {
+
+    }
+    fetchPokemon(nextUrl)
+  }
 
   return (
     <div>
-      <div id ='section'>
-      <div className="content">
-        <h2>Pokemon</h2>
-        <h2>Pokemon</h2>
+      <div id="section">
+        <div className="content">
+          <h2>Pokemon</h2>
+          <h2>Pokemon</h2>
+        </div>
+        <div className="content2">
+          <h2>KingDom</h2>
+          <h2>KingDom</h2>
+        </div>
       </div>
-      <div className="content2">
-        <h2>KingDom</h2>
-        <h2>KingDom</h2>
-      </div>
-    </div>
       <div className="pok-container">
         {pokemonList.map((item) => {
           return (
@@ -46,6 +57,14 @@ function Home() {
             />
           );
         })}
+      </div>
+      <div className="pagination">
+          <Button 
+            buttonText= 'More Pokemons'
+            classes='load-more' 
+            buttonHandler = {loadMore}
+            disabled= {!nextUrl}
+          />
       </div>
     </div>
   );
