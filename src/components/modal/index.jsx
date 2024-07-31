@@ -4,9 +4,10 @@ function Dialog(props) {
   const [showDialog , setShowDialog] = useState()
   useEffect(()=>{
     setShowDialog(props.show)
-  }, [props])
+  }, [props.show])
   function closeDialog() {
-    setShowDialog(false)
+    setShowDialog(false) // child
+    props.setDetailDialog(false) // parent state change  / two way bindin g
   }
   if(!showDialog) {
     return null;

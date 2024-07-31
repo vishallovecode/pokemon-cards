@@ -72,7 +72,10 @@ function Home() {
             disabled= {!nextUrl}
           />
       </div>
-      <Dialog show={showDetailsDialog}/>
+      <Dialog 
+      show={showDetailsDialog}
+      setDetailDialog= {setDetailDialog}
+      />
     </div>
   );
 }
