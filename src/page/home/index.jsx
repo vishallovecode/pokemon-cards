@@ -4,11 +4,14 @@ import Card from "../../components/card";
 import "./home.css";
 import { BASE_URL } from "./constant";
 import Button from "../../components/button";
+import Dialog from "../../components/modal";
 // Container
 function Home() {
   // Home page logic and state will be defined here
   const [pokemonList, setPokemonList] = useState([]);
   const [nextUrl , setNextUrl] = useState('')
+  const[showDetailsDialog , setDetailDialog] = useState(false);
+
   async function fetchPokemon(url) {
     try {
       const data = await fetch(url);
@@ -31,7 +34,9 @@ function Home() {
     }
     fetchPokemon(nextUrl)
   }
-
+  function handleKnowMore () {
+    setDetailDialog(true)
+  }
   return (
     <div>
       <div id="section">
@@ -54,6 +59,7 @@ function Home() {
               }
               pokeMonName={item.name}
               rank="1"
+              handleKnowMore = {handleKnowMore}
             />
           );
         })}
@@ -66,6 +72,7 @@ function Home() {
             disabled= {!nextUrl}
           />
       </div>
+      <Dialog show={showDetailsDialog}/>
     </div>
   );
 }
