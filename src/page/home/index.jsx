@@ -18,10 +18,15 @@ function Home() {
       const res = await data.json();
       const results = res[0].results;
       for(let i=0;i<results.length;i++) {
-        results[i].details  = await  getSinglePokemonDetails(results[i].url)
+        results[i].details  = await  getSinglePokemonDetails(results[i].url) //. rukna ha backend se data kena ha data ane ke  bad jo data hoga usko store karna ha 
+        // individuyal object me jisme key details hogi
+        // we adding details key to each object
       }
+      // results.forEach(async (elem , index)=>{
+      //   elem.detrails =  await  getSinglePokemonDetails(results[i].url)
+      // })
       console.log(results , 'uopdated results')
-      // setPokemonList([...pokemonList ,...res[0]?.results ]);
+      setPokemonList([...pokemonList ,...results]);
       setNextUrl(res[0].next)
     } catch (error) {
       console.error("Error::", error);
@@ -70,12 +75,12 @@ function Home() {
         {pokemonList.map((item) => {
           return (
             <Card
-              type="grass"
+              type={item.details.type}
               imageUrl={
-                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg"
+               item.details.image
               }
               pokeMonName={item.name}
-              rank="1"
+              rank={item.details.id}
               handleKnowMore = {handleKnowMore}
             />
           );
