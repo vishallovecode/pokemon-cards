@@ -2,7 +2,7 @@ import Button from "../button";
 import Thumbnail from "../thumbnail";
 import  './card.css'
 function Card(props) {
-  const  {imageUrl , pokeMonName , type, rank , handleKnowMore} = props;
+  const  {imageUrl , pokeMonName , type, rank , handleKnowMore , details} = props;
   return  (
     <div className={`card ${type}`}>
       <div className="rank">
@@ -16,7 +16,7 @@ function Card(props) {
       Type: {type}
       </div>
       <div>
-      <Button buttonText='Know More..' classes={type}  buttonHandler = {handleKnowMore}/>
+      <Button buttonText='Know More..' classes={type}  buttonHandler = {()=>handleKnowMore(details)}/>
       </div>
     </div>
   )

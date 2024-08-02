@@ -11,6 +11,7 @@ function Home() {
   const [pokemonList, setPokemonList] = useState([]);
   const [nextUrl , setNextUrl] = useState('')
   const[showDetailsDialog , setDetailDialog] = useState(false);
+  const [selectedDetails , setSelectedDetails] = useState([{}])
 
   async function fetchPokemon(url) {
     try {
@@ -25,8 +26,16 @@ function Home() {
       // results.forEach(async (elem , index)=>{
       //   elem.detrails =  await  getSinglePokemonDetails(results[i].url)
       // })
-      console.log(results , 'uopdated results')
+      // console.log(results , 'uopdated results')
       setPokemonList([...pokemonList ,...results]);
+
+      const updatedResults = results.map(async (item)=>{
+        return  {
+          ...item, 
+          details: await  getSinglePokemonDetails(item.url)
+        }
+      })
+      console.log(updatedResults , 'checking')
       setNextUrl(res[0].next)
     } catch (error) {
       console.error("Error::", error);
@@ -56,8 +65,9 @@ function Home() {
     }
     fetchPokemon(nextUrl)
   }
-  function handleKnowMore () {
+  function handleKnowMore (details) {
     setDetailDialog(true) // 
+    setSelectedDetails(details)
   }
   return (
     <div>
@@ -79,6 +89,7 @@ function Home() {
               imageUrl={
                item.details.image
               }
+              details = {item.details}
               pokeMonName={item.name}
               rank={item.details.id}
               handleKnowMore = {handleKnowMore}
@@ -98,7 +109,7 @@ function Home() {
         show={showDetailsDialog}
         setDetailDialog= {setDetailDialog}
       >
-        <h1>Hey I am props.children</h1>
+        <h1>{selectedDetails.name}</h1>
       </Dialog>
     </div>
   );
