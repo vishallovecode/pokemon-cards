@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import './modal.css'
 function Dialog(props) {
   const [showDialog , setShowDialog] = useState()
+
+  // state  and props update capturing
   useEffect(()=>{
     setShowDialog(props.show)
   }, [props.show])
+
   function closeDialog() {
     setShowDialog(false) // child
     props.setDetailDialog(false) // parent state change  / two way bindin g
@@ -21,7 +24,9 @@ function Dialog(props) {
         &#10005;
         </div>
       </div>
-        {props.children}
+      <div className='dialog-body'>
+      {props.children}
+      </div>
       </div>
     </div>
 
@@ -30,3 +35,4 @@ function Dialog(props) {
 
 
 export default  Dialog;
+

@@ -16,10 +16,27 @@ function Home() {
     try {
       const data = await fetch(url);
       const res = await data.json();
-      setPokemonList([...pokemonList ,...res[0]?.results ]);
+      const results = res[0].results;
+      for(let i=0;i<results.length;i++) {
+        results[i].details  = await  getSinglePokemonDetails(results[i].url)
+      }
+      console.log(results , 'uopdated results')
+      // setPokemonList([...pokemonList ,...res[0]?.results ]);
       setNextUrl(res[0].next)
     } catch (error) {
       console.error("Error::", error);
+    }
+  }
+
+  async function getSinglePokemonDetails (url) {
+    try {
+      const res =  await  fetch(url);
+      const data = await res.json();
+      const details  =  data[0];
+      return details;
+    }
+    catch(error) {
+      console.error('Error::' ,error)
     }
   }
 
@@ -35,7 +52,7 @@ function Home() {
     fetchPokemon(nextUrl)
   }
   function handleKnowMore () {
-    setDetailDialog(true)
+    setDetailDialog(true) // 
   }
   return (
     <div>
@@ -73,11 +90,75 @@ function Home() {
           />
       </div>
       <Dialog 
-      show={showDetailsDialog}
-      setDetailDialog= {setDetailDialog}
-      />
+        show={showDetailsDialog}
+        setDetailDialog= {setDetailDialog}
+      >
+        <h1>Hey I am props.children</h1>
+      </Dialog>
     </div>
   );
 }
 
 export default Home;
+
+
+// [
+//   {
+//     "id": 1,
+//     "name": "bulbasaur",
+//     "type": "grass",
+//     "stats": [
+//       {
+//         "base_stat": 45,
+//         "effort": 0,
+//         "stat": {
+//           "name": "hp",
+//           "url": "https://pokeapi.co/api/v2/stat/1/"
+//         }
+//       },
+//       {
+//         "base_stat": 49,
+//         "effort": 0,
+//         "stat": {
+//           "name": "attack",
+//           "url": "https://pokeapi.co/api/v2/stat/2/"
+//         }
+//       },
+//       {
+//         "base_stat": 49,
+//         "effort": 0,
+//         "stat": {
+//           "name": "defense",
+//           "url": "https://pokeapi.co/api/v2/stat/3/"
+//         }
+//       },
+//       {
+//         "base_stat": 65,
+//         "effort": 1,
+//         "stat": {
+//           "name": "special-attack",
+//           "url": "https://pokeapi.co/api/v2/stat/4/"
+//         }
+//       },
+//       {
+//         "base_stat": 65,
+//         "effort": 0,
+//         "stat": {
+//           "name": "special-defense",
+//           "url": "https://pokeapi.co/api/v2/stat/5/"
+//         }
+//       },
+//       {
+//         "base_stat": 45,
+//         "effort": 0,
+//         "stat": {
+//           "name": "speed",
+//           "url": "https://pokeapi.co/api/v2/stat/6/"
+//         }
+//       }
+//     ],
+//     "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg",
+//     "height": 7,
+//     "weight": 69
+//   }
+// ]

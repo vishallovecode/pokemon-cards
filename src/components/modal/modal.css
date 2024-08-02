@@ -23,8 +23,8 @@
 }
 
 .modal-content {
-  height: 400px;
-  width: 400px;
+  height: 45%;
+  width: 50%;
   border: 3px solid #0C0000;
   background-color: #F8D276;
   -webkit-box-shadow: -1px 6px 12px 0px rgba(0,0,0,0.75);
@@ -50,4 +50,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.dialog-body {
+  padding: 10px;
 }
