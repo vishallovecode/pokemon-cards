@@ -12,12 +12,13 @@ function Home() {
   const [nextUrl , setNextUrl] = useState('')
   const[showDetailsDialog , setDetailDialog] = useState(false);
   const [selectedDetails , setSelectedDetails] = useState([{}])
-
   async function fetchPokemon(url) {
     try {
       const data = await fetch(url);
       const res = await data.json();
-      const results = res[0].results;
+      const results = res[0].results; // 10 => 1 -> url -> data  -> details 
+      // 2 => url-> details -> fetc
+
       for(let i=0;i<results.length;i++) {
         results[i].details  = await  getSinglePokemonDetails(results[i].url) //. rukna ha backend se data kena ha data ane ke  bad jo data hoga usko store karna ha 
         // individuyal object me jisme key details hogi
@@ -108,8 +109,45 @@ function Home() {
       <Dialog 
         show={showDetailsDialog}
         setDetailDialog= {setDetailDialog}
+        type={selectedDetails.type}
       >
-        <h1>{selectedDetails.name}</h1>
+      <div className="main-stat">
+          <div className="dialog-left">
+            <img src={selectedDetails?.image}/>
+            <h2>{selectedDetails?.name}</h2>
+          </div>
+          <div className="dialog-right">
+            <div className="flex-direction-column weight-container">
+                <span className="bold"> Wieght: {selectedDetails?.weight}</span>
+                <span className="bold">Height:  {selectedDetails?.height}</span>
+            </div>
+            <div className="flex-direction-column  stat-container">
+            {  
+            selectedDetails?.stats?.map((elem, index)=>{
+              return  (
+                <div className="stat-data">
+                  <span className="bold">Stat{index+1}: {'  '}</span>
+                  <span>{elem?.stat?.name}</span>
+                </div>
+              )
+            })}
+            </div>
+            <div className="flex-direction-column bs-container ">
+            {  
+           selectedDetails?.stats?.map((elem, index)=>{
+              return  (
+                <div className="bs-data">
+                  <span className="bold">BS{index+1}: {'  '} </span>
+                  <span>{elem?.base_stat}</span>
+                </div>
+              )
+            })}
+            </div>
+            <div>
+
+            </div>
+          </div>
+        </div>
       </Dialog>
     </div>
   );

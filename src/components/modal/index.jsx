@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './modal.css'
+import { type } from '@testing-library/user-event/dist/type';
 function Dialog(props) {
   const [showDialog , setShowDialog] = useState()
 
@@ -18,7 +19,7 @@ function Dialog(props) {
   return  (
  <div className="dialog">
     <div className="dialog-overlay"></div>
-    <div className='modal-content'>
+    <div className={`modal-content ${props.type}` }>
       <div className="dialog-header">
         <div className='cross-icon' onClick={closeDialog}>
         &#10005;
